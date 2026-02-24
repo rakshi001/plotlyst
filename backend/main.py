@@ -1,3 +1,4 @@
+import json
 import os
 import random
 from fastapi import FastAPI, HTTPException
@@ -174,7 +175,7 @@ def _fallback_generate(req: StoryRequest) -> StoryResponse:
 # ---------- OpenAI generator ----------
 
 def _openai_generate(req: StoryRequest) -> StoryResponse:
-    from openai import OpenAI  # type: ignore
+    from openai import OpenAI  # type: ignore[import]
 
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
@@ -196,7 +197,6 @@ def _openai_generate(req: StoryRequest) -> StoryResponse:
         temperature=0.85,
     )
 
-    import json
     content = response.choices[0].message.content or "{}"
     data = json.loads(content)
 
